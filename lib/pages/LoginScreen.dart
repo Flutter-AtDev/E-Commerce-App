@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (isValidate) {
                     _globalKey.currentState.save();
                     print('$email : $password');
-                   final result =  await AuthApp().SignUp(email, password);
+                   final result =  await AuthApp().Login(email, password);
                    print(result.user.uid);
                     //LoginUser();
                   }

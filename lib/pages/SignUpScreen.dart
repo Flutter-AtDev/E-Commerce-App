@@ -1,5 +1,6 @@
 import 'package:ecommerceapp/customwidgets/custom_logo_app.dart';
 import 'package:ecommerceapp/customwidgets/custom_text_field.dart';
+import 'package:ecommerceapp/services/AuthApp.dart';
 import 'package:ecommerceapp/utils/Colors.dart';
 import 'package:ecommerceapp/utils/Constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +13,9 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
+  String name, email, password;
 
+  //
   @override
   void initState() {
     // TODO: implement initState
@@ -22,6 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+
     //
     return Scaffold(
       backgroundColor: MAINCOLOR,
@@ -34,20 +38,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             CustomLogoApp(),
             SizedBox(height: height * .08),
-            CustomTextFiled(hint: NAME_HINT, icon: Icons.person),
-            CustomTextFiled(hint: EMAIL_HINT, icon: Icons.email),
-            CustomTextFiled(hint: Password_HINT, icon: Icons.lock),
+            CustomTextFiled(
+                onClick: (value) {
+                  name = value;
+                },
+                hint: NAME_HINT,
+                icon: Icons.person),
+            CustomTextFiled(
+                onClick: (value) {
+                  email = value;
+                },
+                hint: EMAIL_HINT,
+                icon: Icons.email),
+            CustomTextFiled(
+                onClick: (value) {
+                  password = value;
+                },
+                hint: Password_HINT,
+                icon: Icons.lock),
             SizedBox(
               height: height * .02,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 120),
               child: FlatButton(
-                onPressed: () {
+                onPressed: () async {
                   print('pressed...');
-                  globalKey.currentState
+                  bool isValidate = globalKey.currentState
                       .validate(); // Force Rebuild to call VAlidators in TextFormField
-                  // if (isValidate) {}
+                  if (isValidate) {
+                    globalKey.currentState.save();
+                    print('$email : $password');
+                    final result =  await AuthApp().SignUp(email, password);
+                    print(result.user.uid);
+                  }
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -82,9 +106,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 )
               ],
             ),
-        SizedBox(
-          height: height * .06,
-        )
+            SizedBox(
+              height: height * .06,
+            )
           ],
         ),
       ),
