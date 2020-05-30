@@ -1,5 +1,6 @@
 import 'package:ecommerceapp/pages/Home.dart';
 import 'package:ecommerceapp/pages/LoginScreen.dart';
+import 'package:ecommerceapp/pages/SignUpScreen.dart';
 import 'package:ecommerceapp/utils/Constants.dart';
 import 'package:flutter/material.dart';
 
@@ -13,15 +14,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      debugShowCheckedModeBanner: falseen,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: LOGINSCREEN,
+      initialRoute: LOGINSCREEN_ID,
       routes: {
-        LOGINSCREEN: (context) => LoginScreen(),
-        HOMESCREEN: (context) => HomePage(),
+        LOGINSCREEN_ID: (context) => LoginScreen(),
+        SIGNUPSCREEN_ID: (context) => SignUpScreen(),
+        HOMESCREEN_ID: (context) => HomePage(),
       },
     );
   }

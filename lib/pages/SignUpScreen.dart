@@ -1,27 +1,32 @@
 import 'package:ecommerceapp/customwidgets/custom_logo_app.dart';
 import 'package:ecommerceapp/customwidgets/custom_text_field.dart';
-import 'package:ecommerceapp/services/AuthApp.dart';
 import 'package:ecommerceapp/utils/Colors.dart';
 import 'package:ecommerceapp/utils/Constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-  String email, password;
+class _SignUpScreenState extends State<SignUpScreen> {
+  GlobalKey<FormState> globalKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    //
     return Scaffold(
       backgroundColor: MAINCOLOR,
       body: Form(
-        key: _globalKey,
+        key: globalKey,
         child: ListView(
           children: <Widget>[
             SizedBox(
@@ -29,40 +34,27 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             CustomLogoApp(),
             SizedBox(height: height * .08),
-            CustomTextFiled(
-                onClick: (value) {
-                  email = value;
-                },
-                hint: EMAIL_HINT,
-                icon: Icons.email),
-            CustomTextFiled(
-                onClick: (value) {
-                  password = value;
-                },
-                hint: Password_HINT,
-                icon: Icons.lock),
+            CustomTextFiled(hint: NAME_HINT, icon: Icons.person),
+            CustomTextFiled(hint: EMAIL_HINT, icon: Icons.email),
+            CustomTextFiled(hint: Password_HINT, icon: Icons.lock),
             SizedBox(
               height: height * .02,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 120),
               child: FlatButton(
-                onPressed: () async{
-                  bool isValidate = _globalKey.currentState.validate();
-                  if (isValidate) {
-                    _globalKey.currentState.save();
-                    print('$email : $password');
-                   final result =  await AuthApp().SignUp(email, password);
-                   print(result.user.uid);
-                    //LoginUser();
-                  }
+                onPressed: () {
+                  print('pressed...');
+                  globalKey.currentState
+                      .validate(); // Force Rebuild to call VAlidators in TextFormField
+                  // if (isValidate) {}
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
                 color: Colors.black,
                 child: Text(
-                  'Login',
+                  'Sign up',
                   style: TextStyle(
                     color: Colors.white,
                   ),
@@ -76,30 +68,26 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Dont Have Account ? ',
+                  'Have an Account ? ',
                   style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, SIGNUPSCREEN_ID);
+                    Navigator.pushNamed(context, LOGINSCREEN_ID);
                   },
                   child: Text(
-                    'Sign Up',
+                    'Login',
                     style: TextStyle(color: Colors.black, fontSize: 18),
                   ),
                 )
               ],
             ),
-            SizedBox(
-              height: height * .06,
-            )
+        SizedBox(
+          height: height * .06,
+        )
           ],
         ),
       ),
     );
   }
-
-//  void LoginUser() {
-//    AuthUser.
-//  }
 }
